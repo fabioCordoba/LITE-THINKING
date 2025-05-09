@@ -55,7 +55,7 @@ class ExportProductsPDF(APIView):
         return response
 
 class SendProductsReportEmail(APIView):
-    # permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
 
     def post(self, request):
         email = request.data.get('email')
