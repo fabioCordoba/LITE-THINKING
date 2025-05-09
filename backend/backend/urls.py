@@ -17,8 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from drf_yasg.views import get_schema_view
+from django.conf.urls.static import static
 from drf_yasg import openapi
 
+from backend import settings
 from companies.api.router import router_companies
 from products.api.router import router_products
 
@@ -44,3 +46,6 @@ urlpatterns = [
     path('api/', include(router_products.urls)),
     path('api/', include('companies.api.router')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
