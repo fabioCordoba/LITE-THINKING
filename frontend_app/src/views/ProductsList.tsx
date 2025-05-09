@@ -1,12 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { environment } from '../environments/environments';
+import SmartInput from '../components/atoms/SmartInput';
+import ModalExample from '../components/ModalExample';
+import ModalCreateProdct from '../components/atoms/ModalCreateProdct';
+
+type Currency = 'COP' | 'USD' | 'EUR';
+type Prices = {
+  [key in Currency]?: number;
+};
+
+interface Product {
+  code: string;
+  name: string;
+  characteristics: string;
+  prices: Prices;
+  company: string;
+}
 
 const ProductsList: React.FC = () => {
   const baseUrl = environment.baseUrl;
   const [products, setProducts] = useState<any[]>([]);
   const [selectedCompany, setSelectedCompany] = useState('');
   const [companies, setCompanies] = useState([]);
+  const [filtered, setFiltered] = useState<Product[]>(products);
+
+  const displayedProducts = filtered.length > 0 ? filtered : products;
 
   const formatPrice = (value: number) => {
     return new Intl.NumberFormat('es-CO', {
@@ -38,6 +57,15 @@ const ProductsList: React.FC = () => {
     setProducts(data);
   };
 
+  const handleSearch = (query: string) => {
+    const result = products.filter((p) =>
+      p.name.toLowerCase().includes(query.toLowerCase())
+    );
+    console.log(result);
+    
+    setFiltered(result);
+  };
+
   const filteredProducts = selectedCompany
   ? products.filter(p => p.company === selectedCompany)
   : products;
@@ -57,6 +85,8 @@ const ProductsList: React.FC = () => {
             </option>
         ))}
         </select>
+
+        <SmartInput onSearch={handleSearch} />
       
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200 shadow-md bg-white rounded-lg">
@@ -68,15 +98,12 @@ const ProductsList: React.FC = () => {
               <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">Precios</th>
               <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">Empresa</th>
               <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                <button className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-normal bg-purple-200 text-purple-600"
-                    >
-                    Agregar
-                </button>
+              <ModalCreateProdct />
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {products.map(product => (
+            {displayedProducts.map(product => (
               <tr key={product.code} className="hover:bg-gray-50">
                 <td className="px-6 py-4 text-sm text-gray-800">{product.code}</td>
                 <td className="px-6 py-4 text-sm text-gray-800">{product.name}</td>
@@ -88,7 +115,7 @@ const ProductsList: React.FC = () => {
                     </div>
                   ))}
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-800">{product.company?.name || '—'}</td>
+                <td className="px-6 py-4 text-sm text-gray-800">{companies.find(c => c.nit === product.company)?.name || '—'}</td>
                 <td className="px-6 py-4 text-sm text-gray-800">
                 <div className="flex item-center justify-center ">
                         <button className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">

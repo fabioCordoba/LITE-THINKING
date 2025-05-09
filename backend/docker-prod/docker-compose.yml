@@ -31,6 +31,9 @@ services:
       DATABASE_PASSWORD: db_password
       EMAIL_HOST_USER: reckerprofet@gmail.com
       EMAIL_HOST_PASSWORD: szkprxaonroolypc
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     networks:
       - lite-network
 networks:

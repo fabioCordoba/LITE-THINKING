@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { environment } from '../environments/environments';
+import ModalCreateCompany from '../components/atoms/ModalCreateCompany';
 
 const CompaniesList: React.FC = () => {
   const baseUrl = environment.baseUrl;
@@ -25,10 +26,7 @@ const CompaniesList: React.FC = () => {
               <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">Dirección</th>
               <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">Teléfono</th>
               <th className="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                <button className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-normal bg-purple-200 text-purple-600"
-                    >
-                    Agregar
-                </button>
+              <ModalCreateCompany />
               </th>
             </tr>
           </thead>
