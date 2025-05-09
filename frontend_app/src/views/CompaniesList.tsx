@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { environment } from '../environments/environments';
 
 const CompaniesList: React.FC = () => {
+  const baseUrl = environment.baseUrl;
   const [companies, setCompanies] = useState<any[]>([]);
 
   useEffect(() => {
-    axios.get('https://lite-thinking.fabiocordoba.me/api/companies/')
+    axios.get(`${baseUrl}/api/companies/`)
       .then(response => setCompanies(response.data))
       .catch(error => console.error("Error fetching companies", error));
   }, []);

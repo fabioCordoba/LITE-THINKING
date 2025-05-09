@@ -55,7 +55,7 @@ class ExportProductsPDF(APIView):
         return response
 
 class SendProductsReportEmail(APIView):
-    permission_classes = [IsAdminOrReadOnly]
+    # permission_classes = [IsAdminOrReadOnly]
 
     def post(self, request):
         email = request.data.get('email')
@@ -71,9 +71,11 @@ class SendProductsReportEmail(APIView):
         
         pdf = render_to_pdf('home/products-company.html', data)
 
-        if pdf:
-            send_pdf_email(pdf, email)
-            return Response({"message": f"Report sent to {email}"}, status=status.HTTP_200_OK)
-        else:
-            return Response({"error": "Error when generating the PDF"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        try:
+            if pdf:
+                send_pdf_email(pdf, email)
+                return Response({"message": f"Report sent to {email}"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(f"Error al enviar email: {e}")
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         

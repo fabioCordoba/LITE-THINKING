@@ -1,10 +1,11 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { environment } from "../../environments/environments";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-
+  const baseUrl = environment.baseUrl;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,7 +25,7 @@ const Login: React.FC = () => {
 
   const loginUser = async (email: string, password: string): Promise<boolean> => {
     try {
-      const response = await fetch("https://lite-thinking.fabiocordoba.me/api/auth/login", {
+      const response = await fetch(`${baseUrl}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

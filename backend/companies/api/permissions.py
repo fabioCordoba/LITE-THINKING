@@ -17,6 +17,7 @@ class IsGuestOrReadOnly(BasePermission):
     
 class IsAdminOrReadOnly(BasePermission):
     def has_permission(self, request, view):
-        if request.method == 'GET':
-            return True 
-        return request.user.rol == 'administrator'
+        if request.method in ['GET']:
+            return True
+        user = request.user
+        return user.is_authenticated and user.rol == 'administrator'

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { environment } from '../environments/environments';
 
 const ProductsList: React.FC = () => {
+  const baseUrl = environment.baseUrl;
   const [products, setProducts] = useState<any[]>([]);
   const [selectedCompany, setSelectedCompany] = useState('');
   const [companies, setCompanies] = useState([]);
@@ -18,20 +20,20 @@ const ProductsList: React.FC = () => {
   }, []);
 
   const fetchCompanies = async () => {
-    const res = await fetch('https://lite-thinking.fabiocordoba.me/api/companies/');
+    const res = await fetch(`${baseUrl}/api/companies/`);
     const data = await res.json();
     setCompanies(data);
   };
 
   const fetchProducts = async () => {
-    const res = await fetch('https://lite-thinking.fabiocordoba.me/api/products/');
+    const res = await fetch(`${baseUrl}/api/products/`);
     const data = await res.json();
     setProducts(data);
   };
 
   const handleCompanyChange = async (companyNIT: any) => {
     setSelectedCompany(companyNIT);
-    const res = await fetch(`https://lite-thinking.fabiocordoba.me/api/companies/${companyNIT}/products`);
+    const res = await fetch(`${baseUrl}/api/companies/${companyNIT}/products`);
     const data = await res.json();
     setProducts(data);
   };

@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
+import { environment } from '../environments/environments';
 
 export default function ExportProductForm() {
+  const baseUrl = environment.baseUrl;
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState('');
   const [email, setEmail] = useState('');
 
   useEffect(() => {
-    fetch('https://lite-thinking.fabiocordoba.me/api/companies/')
+    fetch('/api/companies/')
       .then(res => res.json())
       .then(data => setCompanies(data));
   }, []);
@@ -14,13 +16,13 @@ export default function ExportProductForm() {
   const handleDownload = async (e:any) => {
     e.preventDefault();
 
-    let endpoint = 'https://lite-thinking.fabiocordoba.me/api/companies/export';
+    let endpoint = `${baseUrl}/api/companies/export`;
     if (selectedCompany) {
-      endpoint = `https://lite-thinking.fabiocordoba.me/api/companies/${selectedCompany}/export-products-pdf/`;
+      endpoint = `${baseUrl}/api/companies/${selectedCompany}/export-products-pdf/`;
     }
 
     if (email) {
-      const res = await fetch('https://lite-thinking.fabiocordoba.me/api/companies/send-report-email', {
+      const res = await fetch(`${baseUrl}/api/companies/send-report-email`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
