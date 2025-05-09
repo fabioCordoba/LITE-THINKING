@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+  db-lite:
+    image: postgres:14.3
+    container_name: postgres-db-lite
+    restart: always
+    environment:
+      POSTGRES_DB: lite-thinking-db
+      POSTGRES_USER: db_user
+      POSTGRES_PASSWORD: db_password
+    ports:
+      - 5437:5432
+    networks:
+      - lite-network
+    volumes:
+      - dblitedata:/var/lib/postgresql/data
+
+  backend-django:
+    image: fabiocordobadev/personal:backend-django-lite-thinking
+    container_name: backend-django-lite-thinking
+    restart: always
+    ports:
+      - 8111:8000
+    depends_on:
+      - db-lite
+    environment:
+      DATABASE_HOST: db-lite
+      DATABASE_NAME: lite-thinking-db
+      DATABASE_USER: db_user
+      DATABASE_PASSWORD: db_password
+    networks:
+      - lite-network
+networks:
+  lite-network:
+
+
+volumes:
+  dblitedata:

@@ -87,22 +87,22 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'lite-thinking-db',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'admin',
+    #     'HOST': 'localhost',  
+    #     'PORT': '5432',       
+    # },
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'lite-thinking-db',
-        'USER': 'postgres',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',  
-        'PORT': '5432',       
-    },
-    # 'prod': {# Prod
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': os.getenv('DATABASE_NAME', 'lite-thinking-db'),
-    #     'USER': os.getenv('DATABASE_USER', 'db_user'),
-    #     'PASSWORD': os.getenv('DATABASE_PASSWORD', 'db_password'),
-    #     'HOST': os.getenv('DATABASE_HOST', 'db'), 
-    #     'PORT': '5432',    
-    # }
+        'NAME': os.getenv('DATABASE_NAME', 'lite-thinking-db'),
+        'USER': os.getenv('DATABASE_USER', 'db_user'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'db_password'),
+        'HOST': os.getenv('DATABASE_HOST', 'db'), 
+        'PORT': '5432',    
+    }
 }
 
 
@@ -155,6 +155,7 @@ STATIC_ROOT = './static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
+APPEND_SLASH=False
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
