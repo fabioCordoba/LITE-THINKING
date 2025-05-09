@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      h1 {
+        color: #333;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #aaa;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    {% if multiple %}
+
+    <h2>Todos los productos</h2>
+
+    {% else %}
+
+    <h1>Products of {{ company.name }}</h1>
+    <div>
+      <h4><strong>NIT:</strong> {{ company.nit }}</h4>
+      <h4><strong>Address:</strong> {{ company.address }}</h4>
+      <h4><strong>Phone:</strong> {{ company.phone }}</h4>
+    </div>
+    {% endif %}
+
+    <table>
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Characteristics</th>
+          <th>Prices</th>
+          {% if multiple %}
+          <th>Company</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr>
+          <td>{{ product.code }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.characteristics }}</td>
+          <td>
+            {% for currency, price in product.prices.items %} {{ currency }}:
+            {{price }}<br />
+            {% endfor %}
+          </td>
+          {% if multiple %}
+          <td>{{ product.company }}</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
